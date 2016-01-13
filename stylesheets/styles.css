@@ -109,7 +109,6 @@ a:hover small {
 
 .wrapper {
   width:860px;
-  margin:0 auto;
 }
 
 blockquote {
@@ -134,12 +133,10 @@ pre {
 }
 
 table {
-  width:100%;
   border-collapse:collapse;
 }
 
 th, td {
-  text-align:left;
   padding:5px 10px;
   border-bottom:1px solid #e5e5e5;
 }
@@ -158,7 +155,7 @@ img {
 }
 
 header {
-  width:270px;
+  width:375px;
   float:left;
   position:fixed;
   -webkit-font-smoothing:subpixel-antialiased;
