@@ -16,9 +16,9 @@
                
             var username = $('#username').val();
             var password = $('#password').val();
-			var credential = '';
+            var credential = '';
                $.post('https://catalog.archives.gov/api/v1/login', {user: username, password: password}, function(t) {
-					credential = t.opaResponse.credentials
+					credential = t.opaResponse.credentials;
 						}, 'json');
 						$.ajax({
     						beforeSend: function(request) {
@@ -27,59 +27,59 @@
     						dataType: "json",
     					url: 'https://catalog.archives.gov/api/v1/users?action=search&rows=100000',
     					success: function(users) {
-    						total = users.opaResponse.users['@total']
+    						total = users.opaResponse.users['@total'];
     						
     						var i = 0;
-    						results = '<table><tr align="center">'
-    						if($('#toggleuser').prop("checked") == true) {
+    						results = '<table><tr align="center">';
+    						if($('#toggleuser').prop("checked") === true) {
 							results = results + '<td><b>Username</b></td>';
-							} if($('#toggleemail').prop("checked") == true) {
+							} if($('#toggleemail').prop("checked") === true) {
 							results = results + '<td><b>Email</b></td>';
-							} if($('#togglecreated').prop("checked") == true) {
+							} if($('#togglecreated').prop("checked") === true) {
 							results = results + '<td style="min-width:100px"><b>Created</b></td>';
 							}
 							var thismonth = 0;
 							var lastmonth = 0;
-    						results = results + '</tr>'
+    						results = results + '</tr>';
 							for (i = 0; i < total; i++) { 
 						
-						u = users.opaResponse.users.user[i].id
-						e = users.opaResponse.users.user[i].email
-						c = users.opaResponse.users.user[i].accountCreatedTs.slice(0,10)
-						a = users.opaResponse.users.user[i].status
-						r = users.opaResponse.users.user[i].rights
-						s = users.opaResponse.users.user[i].isNaraStaff
-						f = users.opaResponse.users.user[i].fullName
+						u = users.opaResponse.users.user[i].id;
+						e = users.opaResponse.users.user[i].email;
+						c = users.opaResponse.users.user[i].accountCreatedTs.slice(0,10);
+						a = users.opaResponse.users.user[i].status;
+						r = users.opaResponse.users.user[i].rights;
+						s = users.opaResponse.users.user[i].isNaraStaff;
+						f = users.opaResponse.users.user[i].fullName;
 						
-						var currentYear = (new Date).getFullYear();
-						var currentMonth = (new Date).getMonth() + 1;
+						var currentYear = (new Date()).getFullYear();
+						var currentMonth = (new Date()).getMonth() + 1;
 						
 						if(c.slice(0,7) == currentYear + '-0' + currentMonth || c.slice(0,7) == currentYear + '-' + currentMonth) {
 							thismonth = thismonth + 1;
 							}
 		
 						if(a == 'inactive') {
-							u = '<s>' + u + '</s>'
-							e = '<s>' + e + '</s>'
-							c = '<s>' + c + '</s>'
+							u = '<s>' + u + '</s>';
+							e = '<s>' + e + '</s>';
+							c = '<s>' + c + '</s>';
 						} if(r != 'regular') {
-							u = '<b>' + u + '</b>'
-							e = '<b>' + e + '</b>'
-							c = '<b>' + c + '</b>'
-						} if(s == true) {
-							u = '<em>' + u + '</em>'
-							e = '<em>' + e + '</em>'
-							c = '<em>' + c + '</em>'
+							u = '<b>' + u + '</b>';
+							e = '<b>' + e + '</b>';
+							c = '<b>' + c + '</b>';
+						} if(s === true) {
+							u = '<em>' + u + '</em>';
+							e = '<em>' + e + '</em>';
+							c = '<em>' + c + '</em>';
 						}
-						if($('#toggleactive').prop("checked") == true || ($('#toggleactive').prop("checked") == false && a == 'active') ) {
-							if($('#togglestaff').prop("checked") == true || ($('#togglestaff').prop("checked") == false && s == false) ) {
-								if($('#togglemods').prop("checked") == true || ($('#togglemods').prop("checked") == false && r == 'regular') ) {
+						if($('#toggleactive').prop("checked") === true || ($('#toggleactive').prop("checked") === false && a == 'active') ) {
+							if($('#togglestaff').prop("checked") === true || ($('#togglestaff').prop("checked") === false && s === false) ) {
+								if($('#togglemods').prop("checked") === true || ($('#togglemods').prop("checked") === false && r == 'regular') ) {
 									results = results + '<tr>';
-									if($('#toggleuser').prop("checked") == true ) {
+									if($('#toggleuser').prop("checked") === true ) {
 										results = results + '<td><a href="https://catalog.archives.gov/accounts/' + u + '/contributions">' + u + '</a></td>';
-									} if($('#toggleemail').prop("checked") == true) {
+									} if($('#toggleemail').prop("checked") === true) {
 										results = results + '<td>' + e + '</td>';
-									} if($('#togglecreated').prop("checked") == true) {
+									} if($('#togglecreated').prop("checked") === true) {
 										results = results + '<td>' + c + '</td>';
 									}
 									results = results + '</tr>';
