@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>National Archives Catalog metrics dashboard</title>
+    <title>National Archives catalog statistics</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
@@ -123,29 +123,62 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>National Archives Catalog metrics dashboard</h1>
+        <h1>National Archives Catalog statistics</h1>
         <p></p>
 
-        <center><table><tr align="center"><td bgcolor="#F8F8F8"><p class="view"><a href="https://github.com/Dominic-MP/catalog-tools">View the Project on GitHub <small>Dominic-MP/catalog-tools</small></a></p></td></table></center>
-
-      <p>This dashboard lists the current metrics tools for <a href='https://catalog.archives.gov'>National Archives catalog</a> data.</p>
-
+        <center><table><tr align="center"><td bgcolor="#F8F8F8"><p class="view"><a href="index.html">Return to main<br/> dashboard</a></p></td><td bgcolor="#F8F8F8"><p class="view"><a href="https://github.com/Dominic-MP/catalog-tools">View the Project on GitHub <small>Dominic-MP/catalog-tools</small></a></p></td></table></center>
+        
+      <p>This tool is used to display catalog metrics from the <a href='https://catalog.archives.gov'>National Archives catalog</a>.</p>
+		<!--<table frame="box"><tr><td colspan="2"><u><center>Settings</center></u></td></tr><tr><td rowspan="3">Data fields:</td><td> <input type="checkbox" id="toggleuser" value="usernames" checked="checked">usernames</input></td></tr> <tr><td><input type="checkbox" id="toggleemail" value="emails">emails</input></td></tr> <tr><td><input type="checkbox" id="togglecreated" value="time created" checked="checked">time created</input></td></tr>
+		 <tr><td rowspan="3"> Include special account types?  </td><td> <input type="checkbox" id="toggleactive" value="inactive">inactive</input></td></tr><tr><td><input type="checkbox" id="togglestaff" value="staff" checked="checked">staff</input></td></tr><tr><td><input type="checkbox" id="togglemods" value="moderators/admins" checked="checked">moderators/admins</input></td></tr></table>
+		<center><input type="text" style="width:134px" id="username" placeholder="username" /><input style="width:134px" type="password" id="password" placeholder="password" /><br/><br/><input style="width:280px" type="button" id="input" value="Load" /></center>-->
         </ul>
         <br/>
         <p><small>This project is maintained by <a href="https://github.com/Dominic-MP">Dominic-MP</a>. Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </header>
       <section>
-    	<ul><h2><a href="catalog-stats.html"><span style="color:#3399FF">Stat</span>alog</a></h2></ul>
-    	<ul><ul>This tool lists current general statistics for the catalog, to provide a snapshot of its scale and makeup. It displays counts for descriptions, authorities, objects, and web pages, with each broken down into further categories.</ul></ul>
-    	
-    	<ul><h2><a href="contribution-stats.html"><span style="color:#3399FF">Count</span>ributions</a></h2> (TBD)</ul>
-    	<ul><ul>This tool lists current public contribution statistics for the catalog, to measure progress and engagement. It displays counts and other statistics for transcriptions, tags, and comments.</ul></ul>
-    	
-    	<ul><h2><a href="user-stats.html">Ac<span style="color:#3399FF">count</span>er</a></h2></ul>
-    	<ul><ul>This tool lists user data for registered catalog accounts, including overall and current-month counts. It displays both public data—like usernames, account types, and creation dates—as well as confidential information, such as email addresses, for authorized NARA account administrators.</ul></ul>
-		
+    	<p align="right">This data was generated at <span style="color:black" id="time"></span>.</p>
+    	<ul><h2>Descriptions</h2></ul>
+    	<ul><ul><h3>There are <u><span id="descriptions">[loading...]</span></u> <span style="color:#993333">descriptions</span>. Of these:</h3></ul></ul>
+		<ul><ul><table>
+    	<tr><td rowspan=2 valign="top" align="right"><h4><u><span id="items">[loading...]</span></u></h4></td><td colspan="2"><h4> are <span style="color:#0099CC">item</span> descriptions. Of these:</h4></td></tr>
+    	<tr><td align="right"><u><span id="itemobj">[loading...]</span></u></td><td align="left"> have objects attached.</td></tr>
+    	<tr><td rowspan=2 valign="top"  align="right"><h4><u><span id="file_units">[loading...]</span></u></h4></td><td colspan="2"><h4> are <span style="color:#0099CC">file unit</span> descriptions.</h4></td></tr>
+    	<tr><td align="right"><u><span id="fileunitobj">[loading...]</span></u></td><td align="left"> have objects attached.</td></tr>
+    	<tr><td align="right"><h4><u><span id="series">[loading...]</span></u></h4></td><td colspan="2"><h4> are <span style="color:#0099CC">series</span> descriptions.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="collections">[loading...]</span></u></h4></td><td colspan="2"><h4> are <span style="color:#0099CC">collection</span> descriptions.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="record_groups">[loading...]</span></u></h4></td><td colspan="2"><h4> are <span style="color:#0099CC">record group</span> descriptions.</h4></td></tr>
     	</table></ul></ul>
 
+    	<ul><h2>Authorities</h2></ul>
+    	<ul><ul><h3>There are <u><span id="authority">[loading...]</span></u> <span style="color:#993333">authorities</span>. Of these:</h3></ul></ul>
+		<ul><ul><table>
+    	<tr><td align="right"><h4><u><span id="person">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">person</span> authorities.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="organization">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">organization</span> authorities.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="geographic_reference">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">geographic reference</span> authorities.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="topical_subject">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">topical subject</span> authorities.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="specific_records_type">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">specific records type</span> authorities.</h4></td></tr>
+    	</table></ul></ul>
+    	
+    	<ul><h2>Objects</h2></ul>
+    	<ul><ul><h3>There are <u><span id="object">[loading...]</span></u> <span style="color:#993333">objects</span>. Of these:</h3></ul></ul></ul>
+		<ul><ul><table>
+    	<tr><td align="right"><h4><u><span id="jpg">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">JPG</span> image files.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="gif">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">GIF</span> image files.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="pdf">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">PDF</span> documents.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="tif">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">TIFF</span> image files.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="wmv">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">WMV</span> video files.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="plain">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">plain text or data</span> files.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="mp4">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">MP4</span> video files.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="mp3">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">MP3</span> audio files.</h4></td></tr>
+    	</table></ul></ul>
+    	
+    	<ul><h2>Web pages</h2></ul>
+    	<ul><ul><h3>There are <u><span id="web_page">[loading...]</span></u> <span style="color:#993333">indexed web pages</span>. Of these:</h3></ul></ul>
+		<ul><ul><table>
+    	<tr><td align="right"><h4><u><span id="archivesgov">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">archives.gov</span> web pages.</h4></td></tr>
+    	<tr><td align="right"><h4><u><span id="libraries">[loading...]</span></u></h4></td><td><h4> are <span style="color:#0099CC">presidential libraries</span> web pages.</h4></td></tr>
+    	</table></ul></ul>
       </section>
     </div>
     <script src="javascripts/scale.fix.js"></script>
