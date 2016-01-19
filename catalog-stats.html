@@ -46,7 +46,7 @@
 					organization = t.opaResponse.results.total.toLocaleString("en");
                   	$('#organization').html(organization);
                });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=fileUnit&rows=1', function(t) {
+               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=person&rows=1', function(t) {
 					person = t.opaResponse.results.total.toLocaleString("en");
                   	$('#person').html(person);
                });
