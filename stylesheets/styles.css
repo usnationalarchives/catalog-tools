@@ -158,6 +158,8 @@ header {
   width:375px;
   float:left;
   position:fixed;
+  overflow:scroll;
+  height:100%;
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
