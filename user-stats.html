@@ -12,15 +12,36 @@
 		
     <script type="text/javascript" language="javascript">
          $(document).ready(function() {
+    	$('#username').keypress(function(enter){
+      		if(enter.keyCode==13)
+      		$('#input').click();
+    	});         
+    	$('#password').keypress(function(enter){
+      		if(enter.keyCode==13)
+      		$('#input').click();
+    	});
+         $("#emailonly").change(function () {
+    if ($('#emailonly').prop("checked") === true) {
+    $("#toggleemail").prop( "disabled", true , $("#toggleemail").prop("checked", true));
+    $("#toggleuser").prop( "disabled", true , $("#toggleuser").prop("checked", false));
+    $("#togglefullname").prop( "disabled", true , $("#togglefullname").prop("checked", false));
+    $("#togglecreated").prop( "disabled", true , $("#togglecreated").prop("checked", false));
+    } else {
+    if ($('#emailonly').prop("checked") === false) {
+    	$("#toggleemail").prop( "disabled", false);
+    	$("#toggleuser").prop( "disabled", false);
+    	$("#togglefullname").prop( "disabled", false);
+    	$("#togglecreated").prop( "disabled", false);
+    	}
+    }
+});
             $("#input").click(function(event){
                
             var username = $('#username').val();
             var password = $('#password').val();
             var credential = '';
-               $.post('https://catalog.archives.gov/api/v1/login', {user: username, password: password}, function(t) {
-					credential = t.opaResponse.credentials;
-
-						}, 'json');
+            
+            function withorwithout() {
 						$.ajax({
     						beforeSend: function(request) {
 						        request.setRequestHeader('Authorization', credential);
@@ -33,19 +54,25 @@
 							$('#time').html('    	<p align="right">This data was generated at <span style="color:black">' + time + '</span>.</p>');
     						
     						var i = 0;
+    						if ($('#emailonly').prop("checked") === true) {
+							results = '<textarea class="email" style="height: 400px; width: 800px" readonly>'
+							} else {
     						results = '<table><tr align="center">';
     						if($('#toggleuser').prop("checked") === true) {
 							results = results + '<td><b>Username</b></td>';
 							} if($('#toggleemail').prop("checked") === true) {
 							results = results + '<td><b>Email</b></td>';
+							} if($('#togglefullname').prop("checked") === true) {
+							results = results + '<td><b>Full name</b></td>';
 							} if($('#togglecreated').prop("checked") === true) {
 							results = results + '<td style="min-width:100px"><b>Created</b></td>';
 							}
+    						results = results + '</tr>';
+							}
 							var thismonth = 0;
 							var lastmonth = 0;
-    						results = results + '</tr>';
 							for (i = 0; i < total; i++) { 
-						
+
 						u = users.opaResponse.users.user[i].id;
 						e = users.opaResponse.users.user[i].email;
 						c = users.opaResponse.users.user[i].accountCreatedTs.slice(0,10);
@@ -53,6 +80,9 @@
 						r = users.opaResponse.users.user[i].rights;
 						s = users.opaResponse.users.user[i].isNaraStaff;
 						f = users.opaResponse.users.user[i].fullName;
+						if (f === undefined) {
+						f = ''
+						}
 						
 						var currentYear = (new Date()).getFullYear();
 						var currentMonth = (new Date()).getMonth() + 1;
@@ -60,19 +90,35 @@
 						if(c.slice(0,7) == currentYear + '-0' + currentMonth || c.slice(0,7) == currentYear + '-' + currentMonth) {
 							thismonth = thismonth + 1;
 							}
-		
+						if ($('#emailonly').prop("checked") === true) {
+						
+						results = results + f + ' <' + e + '>,&#10;'
+						} else {
+						
+						if (e === undefined) {
+						e = '&middot;&middot;&middot;'
+						}
+						
+						uf = u
+						ef = e
+						ff = f
+						cf = c
+						
 						if(a == 'inactive') {
-							u = '<s>' + u + '</s>';
-							e = '<s>' + e + '</s>';
-							c = '<s>' + c + '</s>';
+							uf = '<s>' + uf + '</s>';
+							ef = '<s>' + ef + '</s>';
+							ff = '<s>' + ff + '</s>';
+							cf = '<s>' + cf + '</s>';
 						} if(r != 'regular') {
-							u = '<b>' + u + '</b>';
-							e = '<b>' + e + '</b>';
-							c = '<b>' + c + '</b>';
+							uf = '<b>' + uf + '</b>';
+							ef = '<b>' + ef + '</b>';
+							ff = '<b>' + ff + '</b>';
+							cf = '<b>' + cf + '</b>';
 						} if(s === true) {
-							u = '<em>' + u + '</em>';
-							e = '<em>' + e + '</em>';
-							c = '<em>' + c + '</em>';
+							uf = '<em>' + uf + '</em>';
+							ef = '<em>' + ef + '</em>';
+							ff = '<em>' + ff + '</em>';
+							cf = '<em>' + cf + '</em>';
 						}
 						if($('#toggleactive').prop("checked") === true || ($('#toggleactive').prop("checked") === false && a == 'active') ) {
 							if($('#togglestaff').prop("checked") === true || ($('#togglestaff').prop("checked") === false && s === false) ) {
@@ -82,6 +128,8 @@
 										results = results + '<td><a href="https://catalog.archives.gov/accounts/' + u + '/contributions">' + u + '</a></td>';
 									} if($('#toggleemail').prop("checked") === true) {
 										results = results + '<td>' + e + '</td>';
+									} if($('#togglefullname').prop("checked") === true) {
+										results = results + '<td>' + f + '</td>';
 									} if($('#togglecreated').prop("checked") === true) {
 										results = results + '<td>' + c + '</td>';
 									}
@@ -89,14 +137,32 @@
 								}
 							}
 						}
+						}
 					}
-                  	$('#number').html('<h1><b>' + total + ' total accounts.</b></h1><h2>There were...</h2><h3>' + thismonth + ' new accounts created so far this month.<br/></h3><ul><br/>Legend:<br/></ul><ul> &nbsp;&nbsp;&nbsp;&nbsp; <small><b>bold</b>: power user, moderator, account admin; &nbsp;&nbsp;&nbsp;&nbsp; <em>Italics</em>: NARA staff; &nbsp;&nbsp;&nbsp;&nbsp; <s>strikethrough</s>: disabled account</small><//ul>');
-                  	$('#results').html(results + '</table>');
+					results = results + '</textarea>'
+					if ($('#emailonly').prop("checked") === true){
+					legend = ''
+					} else {
+					legend = '<ul><br/>Legend:<br/>&nbsp;&nbsp; <small><b>bold</b>: power user, moderator, account admin; <br/> &nbsp;&nbsp; <em>italics</em>: NARA staff; <br/> &nbsp;&nbsp; <s>strikethrough</s>: disabled account</small></ul>'
+					}
+                  	$('#number').html('<h1><b>' + total + ' total accounts.</b></h1><h2>There were...</h2><h3>' + thismonth + ' new accounts created so far this month.<br/></h3>' + legend);
+                  	$('#results').html(results);
 					    }
 	});
+}
+               $.post('https://catalog.archives.gov/api/v1/login', {user: username, password: password}, function(t) {
+					credential = t.opaResponse.credentials;
+					withorwithout(credential);
+// 					$("textarea.email").on('mouseup', function() { $(this).select(); });
 
-
-               
+						}, 'json')
+						.fail(function() {
+						if (username === '' && password === '' && $('#toggleemail').prop("checked") === false && $('#emailonly').prop("checked") === false){
+						withorwithout(credential);
+						} else {
+						$('#number').html('<h1>Invalid password and/or username. Please retry.</h1>');
+						}
+						});
 $('#output').html('<br/><br/><br/><br/><ul><h2 align="center">Loading users...</h2></ul>');
             });
          });
@@ -110,10 +176,10 @@ $('#output').html('<br/><br/><br/><br/><ul><h2 align="center">Loading users...</
 
         <center><table><tr align="center"><td bgcolor="#F8F8F8"><p class="view"><a href="index.html">Return to main<br/> dashboard</a></p></td><td bgcolor="#F8F8F8"><p class="view"><a href="https://github.com/usnationalarchives/catalog-tools">View the Project on GitHub <small>usnationalarchives/catalog-tools</small></a></p></td></table></center>
         
-      <p>This tool is used to display user data from the <a href='https://catalog.archives.gov'>National Archives catalog</a>. Search results sort in order of account creation timestamp. Filter your search with the following options. <br/> Note: You must be enter valid account administrator credentials to view email addresses.<p>
-		<table frame="box"><tr><td colspan="2"><u><center>Settings</center></u></td></tr><tr><td rowspan="3">Data fields:</td><td> <input type="checkbox" id="toggleuser" value="usernames" checked="checked">usernames</input></td></tr> <tr><td><input type="checkbox" id="toggleemail" value="emails">emails</input></td></tr> <tr><td><input type="checkbox" id="togglecreated" value="time created" checked="checked">time created</input></td></tr>
+      <p>This tool is used to display user data from the <a href='https://catalog.archives.gov'>National Archives catalog</a>. Search results sort in order of account creation timestamp. Filter your search with the following options. <br/> Note: You must enter valid account administrator credentials to view email addresses.<p>
+		<table frame="box"><tr><td colspan="2"><u><center>Settings</center></u></td></tr><tr><td rowspan="4">Data fields:</td><td> <input type="checkbox" id="toggleuser" value="usernames" checked="checked">usernames</input></td></tr> <tr><td><input type="checkbox" id="toggleemail" value="emails">emails</input> (<input type="checkbox" id="emailonly" value="emailonly">only</input>)</td></tr> <tr><td><input type="checkbox" id="togglefullname" value="fullname" checked="checked">full names</input></td></tr> <tr><td><input type="checkbox" id="togglecreated" value="time created" checked="checked">time created</input></td></tr>
 		 <tr><td rowspan="3"> Include special account types?  </td><td> <input type="checkbox" id="toggleactive" value="inactive">inactive</input></td></tr><tr><td><input type="checkbox" id="togglestaff" value="staff" checked="checked">staff</input></td></tr><tr><td><input type="checkbox" id="togglemods" value="moderators/admins" checked="checked">moderators/admins</input></td></tr></table>
-		<center><input type="text" style="width:134px" id="username" placeholder="username" /><input style="width:134px" type="password" id="password" placeholder="password" /><br/><br/><input style="width:280px" type="button" id="input" value="Load" /></center>
+		<center><input type="text" style="width:134px" id="username" placeholder="username (optional)" /><input style="width:134px" type="password" id="password" placeholder="password (optional)" onKeydown=”Javascript: if (event.keyCode==13) event();” /><br/><br/><input style="width:280px" type="button" id="input" value="Load" /></center>
         </ul>
         
         <br/>
