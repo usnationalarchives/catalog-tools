@@ -12,109 +12,26 @@
 		
     <script type="text/javascript" language="javascript">
          $(document).ready(function() {
-               $.getJSON('https://catalog.archives.gov/api/v1/?type=description&rows=1', function(t) {
-					descriptions = t.opaResponse.results.total
-					time = t.opaResponse.time
-                  	$('#descriptions').html(descriptions);
+               $.getJSON('https://catalog.archives.gov/api/v1/?type=object&objects.object.publicContributions.transcription.users.user.@version=1&rows=1', function(t) {
+					transcriptions = t.opaResponse.results.total;
+					time = t.opaResponse.time;
+                  	$('#transcriptions').html(transcriptions);
                   	$('#time').html(time);
                });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=item&rows=1', function(t) {
-					items = t.opaResponse.results.total
+               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=item&objects.object.publicContributions.transcription.users.user.@version=1', function(i) {
+					items = i.opaResponse.results.total;
                   	$('#items').html(items);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=fileUnit&rows=1', function(t) {
-					file_units = t.opaResponse.results.total
+               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=fileUnit&objects.object.publicContributions.transcription.users.user.@version=1&rows=1', function(f) {
+					file_units = f.opaResponse.results.total
                   	$('#file_units').html(file_units);
+                  	descriptions = Number(file_units) + Number(items);
+                  	$('#descriptions').html(descriptions);
+               });
+               
                });
                $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=series&rows=1', function(t) {
 					series = t.opaResponse.results.total
                   	$('#series').html(series);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=collection&rows=1', function(t) {
-					collections = t.opaResponse.results.total
-                  	$('#collections').html(collections);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=recordGroup&rows=1', function(t) {
-					record_groups = t.opaResponse.results.total
-                  	$('#record_groups').html(record_groups);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=authority&rows=1', function(t) {
-					authority = t.opaResponse.results.total
-                  	$('#authority').html(authority);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=organization&rows=1', function(t) {
-					organization = t.opaResponse.results.total
-                  	$('#organization').html(organization);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=fileUnit&rows=1', function(t) {
-					person = t.opaResponse.results.total
-                  	$('#person').html(person);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?type=geographic-reference&rows=1', function(t) {
-					geographic_reference = t.opaResponse.results.total
-                  	$('#geographic_reference').html(geographic_reference);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=topicalSubject&rows=1', function(t) {
-					topical_subject = t.opaResponse.results.total
-                  	$('#topical_subject').html(topical_subject);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=specificRecordsType&rows=1', function(t) {
-					specific_records_type = t.opaResponse.results.total
-                  	$('#specific_records_type').html(specific_records_type);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=object&rows=1', function(t) {
-					object = t.opaResponse.results.total
-                  	$('#object').html(object);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=archivesWeb&rows=1', function(t) {
-					archivesgov = t.opaResponse.results.total
-                  	$('#archivesgov').html(archivesgov);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=presidentialWeb&rows=1', function(t) {
-					libraries = t.opaResponse.results.total
-                  	$('#libraries').html(libraries);
-                  	web_page = Number(libraries) + Number(archivesgov);
-                  	$('#web_page').html(web_page);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=fileUnit&objects.@version=OPA&rows=1', function(t) {
-					fileunitobj = t.opaResponse.results.total
-                  	$('#fileunitobj').html(fileunitobj);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1/?resultTypes=item&objects.@version=OPA&rows=1', function(t) {
-					itemobj = t.opaResponse.results.total
-                  	$('#itemobj').html(itemobj);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=jpeg&rows=1', function(t) {
-					jpg = t.opaResponse.results.total
-                  	$('#jpg').html(jpg);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=gif&rows=1', function(t) {
-					gif = t.opaResponse.results.total
-                  	$('#gif').html(gif);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=pdf&rows=1', function(t) {
-					pdf = t.opaResponse.results.total
-                  	$('#pdf').html(pdf);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=tiff&rows=1', function(t) {
-					tif = t.opaResponse.results.total
-                  	$('#tif').html(tif);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=wmv&rows=1', function(t) {
-					wmv = t.opaResponse.results.total
-                  	$('#wmv').html(wmv);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=mp4&rows=1', function(t) {
-					mp4 = t.opaResponse.results.total
-                  	$('#mp4').html(mp4);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=mpeg3&rows=1', function(t) {
-					mp3 = t.opaResponse.results.total
-                  	$('#mp3').html(mp3);
-               });
-               $.getJSON('https://catalog.archives.gov/api/v1?type=object&objects.object.file.@mime=plain&rows=1', function(t) {
-					plain = t.opaResponse.results.total
-                  	$('#plain').html(plain);
                });
                
             });
@@ -137,7 +54,14 @@
         <p><small>This project is maintained by <a href="https://github.com/Dominic-MP">Dominic-MP</a>. Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </header>
       <section>
-    	<ul><h2>TBD</h2></ul>
+		<p align="right">This data was generated at <span style="color:black" id="time"></span>.</p>
+    	<ul><h2>Transcriptions</h2></ul>
+    	<ul><ul><h3>There are <u><span id="transcriptions">[loading...]</span></u> <span style="color:#993333">transcriptions</span>.</h3></ul></ul>
+		<ul><ul><table>
+    	<tr><td rowspan=3 valign="top" align="right"><h4><u><span id="descriptions">[loading...]</span></u></h4></td><td colspan="2"><h4> <span style="color:#669999">descriptions</span> have any transcribed pages. Of these:</h4></td></tr>
+    	<tr><td align="right"><u><span id="items">[loading...]</span></u></td><td align="left"> are item descriptions with transcriptions.</td></tr>
+    	<tr><td align="right"><u><span id="file_units">[loading...]</span></u></td><td align="left"> are file unit descriptions with transcriptions.</td></tr>
+    	</table></ul></ul>
       </section>
     </div>
     <script src="javascripts/scale.fix.js"></script>
